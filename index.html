@@ -1,0 +1,724 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Mobile Photobooth · Ban Công | Mộc</title>
+<meta name="description" content="Dịch vụ photobooth in ảnh lấy ngay trên điện thoại tại Ban Công và Gác." />
+<style>
+/* ============================================================
+   Tokens — trích trực tiếp từ screenshot app thật (brand-spec.md)
+   ============================================================ */
+:root{
+  --bg:        #F7EEDD;
+  --surface:   #FCFDF7;
+  --fg:        #3B2A1A;
+  --muted:     #8F836D;
+  --border:    #E7D9BE;
+  --accent:    #B5532E;
+  --accent-soft:#C96A45;
+  --gold:      #E8C6A3;
+  --gold-deep: #C9A24B;
+  --ink-soft:  #6C5A44;
+
+  --font-display:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,'Times New Roman',serif;
+  --font-body:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+  --font-mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+
+  --maxw:1180px;
+  --r-lg:22px;
+  --r-md:16px;
+  --r-sm:11px;
+  --shadow:0 1px 2px rgba(59,42,26,.04),0 14px 34px -18px rgba(59,42,26,.28);
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  color:var(--fg);
+  font-family:var(--font-body);
+  font-size:17px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  background-color:var(--bg);
+  background-image:repeating-linear-gradient(114deg,rgba(255,255,255,.5) 0 9px,rgba(255,255,255,0) 9px 26px);
+}
+img{display:block;max-width:100%}
+a{color:inherit}
+h1,h2,h3{font-family:var(--font-display);font-weight:600;line-height:1.06;margin:0;letter-spacing:-.015em}
+p{margin:0}
+
+.wrap{width:min(var(--maxw),calc(100% - 44px));margin-inline:auto}
+.sprite{position:absolute;width:0;height:0;overflow:hidden}
+.icon{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;display:block}
+
+/* ============================================================
+   Nav
+   ============================================================ */
+.nav{
+  position:sticky;top:0;z-index:50;
+  background:color-mix(in oklab,var(--bg) 82%,#fff);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid color-mix(in oklab,var(--border) 70%,transparent);
+}
+.nav-in{width:min(var(--maxw),calc(100% - 44px));margin-inline:auto;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:18px;height:76px}
+.brand{grid-column:2;justify-self:center;display:flex;align-items:center;gap:15px;text-decoration:none}
+.brand .mark{width:54px;height:54px;flex:none;display:block;object-fit:contain}
+.brand .brand-bc{display:grid;place-items:center;background:var(--fg);border-radius:13px;padding:10px 16px}
+.brand .brand-bc img{display:block;height:27px;width:auto}
+.brand .brand-x{font-family:var(--font-display);font-size:23px;line-height:1;color:var(--muted);opacity:.75}
+.nav-links{grid-column:3;justify-self:end;display:flex;gap:26px;font-size:14.5px;color:var(--ink-soft)}
+.nav-links a{text-decoration:none;position:relative;padding:4px 0}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:0;height:1.5px;width:0;background:var(--accent);transition:width .25s}
+.nav-links a:hover::after{width:100%}
+.nav-links a.active{color:var(--fg);font-weight:600}
+.nav-links a.active::after{width:100%}
+@media (max-width:860px){.nav-links{display:none}}
+@media (max-width:560px){.brand{gap:10px}.brand .mark{width:44px;height:44px}.brand .brand-bc{padding:8px 12px}.brand .brand-bc img{height:22px}.brand .brand-x{font-size:19px}}
+
+/* ============================================================
+   Hero
+   ============================================================ */
+.hero{padding:74px 0 80px;position:relative;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:var(--font-mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);border:1px solid var(--border);background:var(--surface);padding:7px 14px;border-radius:999px}
+.eyebrow b{color:var(--accent);font-weight:600}
+h1.title{font-size:clamp(46px,7.6vw,104px);margin:26px 0 0;letter-spacing:-.03em}
+.title .sub-line{display:block}
+.lede{margin-top:22px;font-size:clamp(17px,1.5vw,21px);color:var(--ink-soft);max-width:34ch}
+.hero-actions{margin-top:32px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:9px;font-size:15px;font-weight:600;line-height:1.15;white-space:nowrap;text-decoration:none;padding:14px 24px;border-radius:999px;border:1px solid var(--border);background:var(--surface);color:var(--fg);transition:transform .18s,box-shadow .18s}
+.btn:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn .icon{width:17px;height:17px}
+.facts{margin-top:42px;display:flex;flex-wrap:wrap;gap:14px 30px;border-top:1px solid var(--border);padding-top:24px}
+.fact .k{font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.fact .v{font-family:var(--font-display);font-size:19px;margin-top:3px}
+
+.hero-art{position:relative;display:flex;justify-content:center;--py:0px}
+.hero-art::before{content:"";position:absolute;inset:8% 4% 12% 4%;background:radial-gradient(120% 120% at 50% 0%,var(--gold) 0%,transparent 62%);opacity:.55;z-index:0;transform:translate3d(0,var(--py),0)}
+.phone{position:relative;z-index:1;width:296px;aspect-ratio:9/19.3;background:#241b13;border-radius:46px;padding:11px;box-shadow:0 40px 70px -32px rgba(59,42,26,.6),0 0 0 1px rgba(59,42,26,.5)}
+.phone img{width:100%;height:100%;object-fit:contain;object-position:center;background:var(--bg);border-radius:36px}
+.phone.sm{width:238px;border-radius:38px;padding:9px}
+.phone.sm img{border-radius:30px}
+.phone-cap{text-align:center;font-size:13px;color:var(--muted);margin-top:14px}
+.phone-cap b{color:var(--fg);font-weight:600}
+.qr-mini{position:absolute;z-index:2;right:-14px;bottom:26px;width:120px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:10px;box-shadow:var(--shadow);text-align:center}
+.qr-mini img{border-radius:8px}
+.qr-mini span{display:block;font-size:11px;color:var(--muted);margin-top:7px;letter-spacing:.03em}
+.qr-mini a{display:inline-flex;align-items:center;gap:6px;margin-top:9px;font-size:11.5px;font-weight:600;white-space:nowrap;color:var(--accent);text-decoration:none}
+.qr-mini a .icon{width:13px;height:13px}
+@media (max-width:900px){.hero-grid{grid-template-columns:1fr;gap:44px}.hero-art{order:-1;flex-wrap:wrap;gap:22px}.lede{max-width:none}.qr-mini{position:static;flex:1 1 100%;width:auto;max-width:230px;margin-inline:auto}}
+
+/* ============================================================
+   Section scaffolding
+   ============================================================ */
+section{border-top:1px solid color-mix(in oklab,var(--border) 70%,transparent)}
+.sec{padding:78px 0}
+.sec-head{max-width:760px}
+.sec-num{font-family:var(--font-mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:12px}
+.sec-num::after{content:"";height:1px;width:44px;background:var(--border)}
+h2.sec-title{font-size:clamp(30px,3.9vw,50px);margin-top:16px;letter-spacing:-.02em}
+.sec-intro{margin-top:16px;color:var(--ink-soft);font-size:17.5px;max-width:62ch}
+.hl{color:var(--accent);font-weight:600;background-image:linear-gradient(180deg,transparent 60%,color-mix(in oklab,var(--gold) 72%,transparent) 60%);background-repeat:no-repeat;padding:0 .08em;border-radius:2px}
+
+/* ============================================================
+   01 — Vì sao
+   ============================================================ */
+.why{background:linear-gradient(180deg,color-mix(in oklab,var(--bg) 60%,#fff),var(--bg))}
+.obs-grid{margin-top:44px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.obs{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:26px 24px;display:flex;flex-direction:column;gap:14px}
+.obs .n{font-family:var(--font-mono);font-size:12px;color:var(--muted);letter-spacing:.14em}
+.obs h3{font-size:21px}
+.obs p{color:var(--ink-soft);font-size:15.5px}
+.obs .ico{width:40px;height:40px;border-radius:12px;background:color-mix(in oklab,var(--gold) 55%,var(--surface));color:var(--accent);display:grid;place-items:center;font-size:21px}
+.solution{margin-top:22px;background:var(--fg);color:var(--bg);border-radius:var(--r-lg);padding:34px 36px;display:flex;align-items:center;gap:26px;flex-wrap:wrap}
+.solution .tag{font-family:var(--font-mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.solution .big{font-family:var(--font-display);font-size:clamp(23px,2.6vw,34px);line-height:1.18;flex:1;min-width:280px}
+.solution .big em{font-style:normal;color:var(--gold)}
+@media (max-width:900px){.obs-grid{grid-template-columns:1fr}}
+
+/* ============================================================
+   02 — Luồng người dùng
+   ============================================================ */
+.phase{margin-top:34px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow)}
+.phase-head{display:flex;align-items:center;gap:16px;padding:22px 30px;border-bottom:1px solid var(--border);background:color-mix(in oklab,var(--gold) 26%,var(--surface))}
+.phase-head .pnum{font-family:var(--font-display);font-size:23px;color:#fff;background:var(--accent);width:44px;height:44px;border-radius:12px;display:grid;place-items:center}
+.phase-head .pt{font-family:var(--font-display);font-size:23px}
+.phase-head .ps{color:var(--muted);font-size:13.5px;margin-top:2px}
+.phase-body{display:grid;grid-template-columns:1fr 1.05fr;gap:0}
+.phase.reverse .phase-body{grid-template-columns:1.05fr 1fr}
+.phase.reverse .steps{order:2}
+.phase.reverse .screens{order:1;border-left:0;border-right:1px solid var(--border)}
+.steps{padding:30px 32px;display:flex;flex-direction:column;gap:20px}
+.step{display:flex;gap:16px}
+.step .idx{flex:none;width:30px;height:30px;border-radius:50%;border:1px solid var(--border);background:var(--bg);color:var(--accent);font-family:var(--font-mono);font-size:13px;display:grid;place-items:center;margin-top:2px}
+.step .st{font-weight:600;font-size:16px}
+.step .sd{color:var(--ink-soft);font-size:15px;margin-top:3px}
+.step .sd .pill{display:inline-block;font-family:var(--font-mono);font-size:12px;background:color-mix(in oklab,var(--gold) 45%,var(--surface));border:1px solid var(--border);border-radius:999px;padding:1px 9px;margin:0 2px}
+.screens{padding:30px 30px;border-left:1px solid var(--border);background:linear-gradient(180deg,color-mix(in oklab,var(--bg) 55%,#fff),var(--surface));display:flex;flex-wrap:wrap;gap:22px;align-items:flex-start;justify-content:center}
+.screens .cell{display:flex;flex-direction:column;align-items:center}
+@media (max-width:900px){
+  .phase-body,.phase.reverse .phase-body{grid-template-columns:1fr}
+  .phase.reverse .steps{order:1}.phase.reverse .screens{order:2;border-right:0;border-top:1px solid var(--border)}
+  .screens{border-left:0;border-top:1px solid var(--border)}
+}
+
+/* ============================================================
+   03 — Hỗ trợ
+   ============================================================ */
+.sup-grid{margin-top:44px;display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.sup{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:26px 26px;display:flex;gap:20px}
+.sup .ico{flex:none;width:46px;height:46px;border-radius:13px;background:color-mix(in oklab,var(--gold) 50%,var(--surface));color:var(--accent);display:grid;place-items:center;font-size:23px}
+.sup h3{font-size:20px;margin-bottom:7px}
+.sup p{color:var(--ink-soft);font-size:15.5px}
+.sup .places{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+.sup .places span{font-size:12.5px;font-family:var(--font-mono);border:1px solid var(--border);background:var(--bg);border-radius:999px;padding:3px 10px;color:var(--ink-soft)}
+@media (max-width:820px){.sup-grid{grid-template-columns:1fr}}
+
+/* ============================================================
+   04 — Setup
+   ============================================================ */
+.setup{background:linear-gradient(180deg,var(--bg),color-mix(in oklab,var(--bg) 55%,#fff))}
+.venue{margin-top:46px;display:grid;grid-template-columns:1fr auto 1fr;gap:24px;align-items:stretch}
+.venue-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:28px;box-shadow:var(--shadow)}
+.venue-card .vh{display:flex;align-items:center;gap:12px;font-family:var(--font-display);font-size:24px}
+.venue-card .vh .ico{width:34px;height:34px;color:var(--accent);font-size:30px}
+.venue-card p{color:var(--ink-soft);font-size:15.5px;margin-top:12px}
+.venue-card.is-printer{border-color:color-mix(in oklab,var(--accent) 40%,var(--border));background:linear-gradient(180deg,color-mix(in oklab,var(--gold) 30%,var(--surface)),var(--surface))}
+.venue-link{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--muted);font-family:var(--font-mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase}
+.venue-link .line{width:64px;height:1px;background:var(--border);position:relative}
+.venue-link .line::after{content:"";position:absolute;right:-1px;top:-3px;width:7px;height:7px;border-top:1px solid var(--muted);border-right:1px solid var(--muted);transform:rotate(45deg)}
+@media (max-width:820px){.venue{grid-template-columns:1fr}.venue-link .line{width:1px;height:48px}.venue-link .line::after{right:-3px;top:auto;bottom:-1px;transform:rotate(135deg)}}
+
+/* ============================================================
+   05 — Doanh thu
+   ============================================================ */
+.rev-grid{margin-top:46px;display:grid;grid-template-columns:.9fr 1.1fr;gap:40px;align-items:center}
+.big-price{font-family:var(--font-display);font-size:clamp(64px,9vw,124px);line-height:.92;letter-spacing:-.04em;color:var(--accent)}
+.big-price sup{font-size:.38em;color:var(--ink-soft);vertical-align:super;margin-left:6px;letter-spacing:0}
+.big-price-label{font-family:var(--font-mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-top:14px}
+.split{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:30px;box-shadow:var(--shadow)}
+.split-head{display:flex;justify-content:space-between;align-items:baseline;font-size:14px;color:var(--muted)}
+.split-bar{margin-top:16px;height:56px;border-radius:13px;overflow:hidden;display:flex;border:1px solid var(--border)}
+.split-bar .seg{display:flex;align-items:center;padding:0 18px;font-family:var(--font-mono);font-size:13px;white-space:nowrap}
+.split-bar .to-bc{flex:0 0 37.5%;background:var(--accent);color:#fff}
+.split-bar .rest{flex:1;background:color-mix(in oklab,var(--gold) 45%,var(--surface));color:var(--ink-soft)}
+.split-legend{display:flex;flex-wrap:wrap;gap:22px;margin-top:20px;font-size:14.5px}
+.split-legend .li{display:flex;align-items:center;gap:9px;color:var(--ink-soft)}
+.dot{width:11px;height:11px;border-radius:4px;flex:none}
+.dot.a{background:var(--accent)}.dot.b{background:color-mix(in oklab,var(--gold) 75%,var(--surface))}
+.split-note{margin-top:22px;padding-top:18px;border-top:1px dashed var(--border);font-size:14px;color:var(--muted)}
+@media (max-width:820px){.rev-grid{grid-template-columns:1fr;gap:30px}}
+
+/* ============================================================
+   QR CTA + footer
+   ============================================================ */
+.qr-cta{padding:86px 0;background:var(--fg);color:var(--bg);border-top:0}
+.qr-cta .wrap{display:flex;flex-direction:column;align-items:center;text-align:center;gap:40px}
+.qr-cta h2{font-size:clamp(30px,4.2vw,54px);letter-spacing:-.02em}
+.qr-cta p{color:color-mix(in oklab,var(--bg) 72%,var(--fg));margin:16px auto 0;font-size:17px;max-width:46ch}
+.qr-card{background:var(--surface);border-radius:var(--r-lg);padding:20px;width:230px;text-align:center;box-shadow:0 30px 60px -28px rgba(0,0,0,.6)}
+.qr-card img{border-radius:12px;background:#fff}
+.qr-card .ql{font-family:var(--font-display);font-size:19px;color:var(--fg);margin-top:14px}
+.qr-card .qs{font-size:12px;color:var(--muted);margin-top:4px;font-family:var(--font-mono);letter-spacing:.1em;text-transform:uppercase}
+.qr-card .qb{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:16px;width:100%;text-decoration:none;font-size:14.5px;font-weight:600;white-space:nowrap;color:#fff;background:var(--accent);padding:12px 16px;border-radius:999px;transition:transform .18s,box-shadow .18s}
+.qr-card .qb:hover{transform:translateY(-1px);box-shadow:0 14px 26px -14px rgba(181,83,46,.85)}
+.qr-card .qb .icon{width:16px;height:16px}
+.logos{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:34px;flex-wrap:wrap}
+.logos .lchip{display:grid;place-items:center;background:color-mix(in oklab,var(--bg) 7%,transparent);border:1px solid rgba(232,198,163,.3);border-radius:16px;padding:12px 20px;min-height:70px}
+.logos .lchip img{display:block}
+.logos .lchip.moc{padding:12px}
+.logos .lchip.moc img{height:52px;width:52px}
+.logos .lchip.bc img{height:38px;width:auto}
+.logos .lx{font-family:var(--font-display);font-size:26px;line-height:1;color:color-mix(in oklab,var(--bg) 62%,var(--fg));opacity:.8}
+@media (max-width:820px){.qr-card{width:min(260px,100%)}}
+
+footer{padding:34px 0;background:var(--fg);color:color-mix(in oklab,var(--bg) 55%,var(--fg));border-top:1px solid rgba(232,198,163,.16)}
+footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;font-size:13.5px}
+footer .mono{font-family:var(--font-mono);letter-spacing:.06em}
+footer .flogos{display:flex;align-items:center;gap:14px}
+footer .flogos img{display:block;opacity:.92}
+footer .flogos .fbc{height:22px;width:auto}
+footer .flogos .fmoc{height:36px;width:36px}
+footer .flogos .fx{font-family:var(--font-display);font-size:16px;color:color-mix(in oklab,var(--bg) 45%,var(--fg));opacity:.8}
+
+/* ============================================================
+   Scroll animation
+   ============================================================ */
+.scroll-progress{
+  position:fixed;top:0;left:0;height:3px;width:0;z-index:120;
+  background:linear-gradient(90deg,var(--accent),var(--gold-deep) 68%,var(--gold));
+  box-shadow:0 0 14px color-mix(in oklab,var(--accent) 55%,transparent);
+}
+.reveal{
+  opacity:0;transform:translateY(30px);
+  transition:opacity .85s cubic-bezier(.2,.7,.2,1),transform .85s cubic-bezier(.2,.7,.2,1);
+}
+.reveal.in{opacity:1;transform:none}
+.reveal[data-reveal="left"]{transform:translateX(-40px)}
+.reveal[data-reveal="right"]{transform:translateX(40px)}
+.reveal[data-reveal="scale"]{transform:translateY(24px) scale(.94)}
+.reveal[data-reveal="soft"]{transform:translateY(16px)}
+
+.stagger>*{
+  opacity:0;transform:translateY(26px);
+  transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1);
+}
+.stagger.in>*{opacity:1;transform:none}
+.stagger.in>*:nth-child(2){transition-delay:.08s}
+.stagger.in>*:nth-child(3){transition-delay:.16s}
+.stagger.in>*:nth-child(4){transition-delay:.24s}
+.stagger.in>*:nth-child(5){transition-delay:.32s}
+.stagger.in>*:nth-child(6){transition-delay:.4s}
+.stagger.in>*:nth-child(7){transition-delay:.48s}
+.stagger.in>*:nth-child(8){transition-delay:.56s}
+.stagger.in>*:nth-child(9){transition-delay:.64s}
+
+.phase{transition:box-shadow .7s cubic-bezier(.2,.7,.2,1)}
+.phase.in{box-shadow:0 26px 56px -30px rgba(59,42,26,.46)}
+[data-parallax]{will-change:transform}
+
+.split-bar{clip-path:inset(0 100% 0 0);transition:clip-path 1.15s cubic-bezier(.22,.7,.2,1) .18s}
+.split.in .split-bar{clip-path:inset(0 0 0 0)}
+
+@media (prefers-reduced-motion:reduce){
+  .scroll-progress{display:none}
+  .reveal,.stagger>*{opacity:1!important;transform:none!important;transition:none!important}
+  .split-bar{clip-path:none!important;transition:none!important}
+  [data-parallax]{transform:none!important}
+}
+</style>
+</head>
+<body>
+
+<div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
+<!-- Icon sprite -->
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="ic-scan" viewBox="0 0 24 24"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2"/><path d="M8 8h2v2H8zM14 8h2v2h-2zM8 14h2v2H8zM14 14h2v2h-2z"/></symbol>
+  <symbol id="ic-phone" viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2.6"/><path d="M10.5 5.5h3"/><path d="M11 18.5h2"/></symbol>
+  <symbol id="ic-megaphone" viewBox="0 0 24 24"><path d="M4 10v4l11 4V6L4 10z"/><path d="M15 9.2a3 3 0 0 1 0 5.6"/><path d="M6.5 13.8V19a1 1 0 0 0 1 1h1.6"/></symbol>
+  <symbol id="ic-upload" viewBox="0 0 24 24"><path d="M12 16V4.5M8 8.5l4-4 4 4"/><path d="M4 15.5v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></symbol>
+  <symbol id="ic-camera" viewBox="0 0 24 24"><path d="M4 8.5h2.6L8.2 6h7.6l1.6 2.5H20a1 1 0 0 1 1 1V18a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5a1 1 0 0 1 1-1z"/><circle cx="12" cy="13.4" r="3.3"/></symbol>
+  <symbol id="ic-send" viewBox="0 0 24 24"><path d="M21 4 3.5 11l6.6 2.4L12.5 20 21 4z"/><path d="M10.1 13.4 21 4"/></symbol>
+  <symbol id="ic-print" viewBox="0 0 24 24"><path d="M7 9V4h10v5"/><path d="M6 9h12a2 2 0 0 1 2 2v4h-3v4H7v-4H4v-4a2 2 0 0 1 2-2z"/><path d="M7 15h10"/></symbol>
+  <symbol id="ic-receipt" viewBox="0 0 24 24"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9.3 8h5.4M9.3 11.5h5.4"/></symbol>
+  <symbol id="ic-download" viewBox="0 0 24 24"><path d="M12 4v10.5M8 10.5l4 4 4-4"/><path d="M5 19.5h14"/></symbol>
+  <symbol id="ic-store" viewBox="0 0 24 24"><path d="M4 9.5V6l2-3h12l2 3v3.5"/><path d="M4 9.5a2 2 0 0 0 4 0 2 2 0 0 0 4 0 2 2 0 0 0 4 0 2 2 0 0 0 4 0"/><path d="M5 12.4V20h14v-7.6"/><path d="M10 20v-4.5h4V20"/></symbol>
+  <symbol id="ic-team" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3.5 19.5a5.5 5.5 0 0 1 11 0"/><path d="M16 5.6a3 3 0 0 1 0 5.3"/><path d="M17.4 14.2a5.5 5.5 0 0 1 3.1 5.3"/></symbol>
+  <symbol id="ic-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.2"/><path d="M12 7.6v4.6l3 1.8"/></symbol>
+  <symbol id="ic-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="ic-external" viewBox="0 0 24 24"><path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M19 14v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h4"/></symbol>
+</svg>
+
+<!-- ===================== NAV ===================== -->
+<header class="nav">
+  <div class="nav-in">
+    <a class="brand" href="#top" aria-label="Ban Công &amp; Mộc Photobooth">
+      <span class="brand-bc"><img src="assets/bancong-logo.png" alt="Ban Công café &amp; restaurant" /></span>
+      <span class="brand-x" aria-hidden="true">×</span>
+      <img class="mark" src="assets/moc-logo.png" alt="Mộc" />
+    </a>
+    <nav class="nav-links" aria-label="Mục lục">
+      <a href="#why">Vì sao</a>
+      <a href="#flow">Luồng người dùng</a>
+      <a href="#support">Hỗ trợ</a>
+      <a href="#setup">Setup</a>
+      <a href="#revenue">Doanh thu</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<!-- ===================== HERO ===================== -->
+<section id="top" class="hero" data-od-id="hero" style="border-top:0">
+  <div class="wrap hero-grid">
+    <div class="stagger">
+      <span class="eyebrow">Ban Công &amp; <b>Mộc Photobooth</b></span>
+      <h1 class="title"><span class="sub-line">Mobile</span><span class="sub-line">Photobooth</span></h1>
+      <p class="lede">Dịch vụ photobooth in ảnh lấy ngay trên điện thoại.</p>
+      <div class="hero-actions">
+        <a class="btn primary" href="#qr"><svg class="icon"><use href="#ic-scan"/></svg> Quét QR để bắt đầu</a>
+        <a class="btn" href="#flow"><svg class="icon"><use href="#ic-arrow"/></svg> Xem luồng người dùng</a>
+      </div>
+      <div class="facts">
+        <div class="fact"><div class="k">Giá in</div><div class="v">80.000đ / ảnh</div></div>
+        <div class="fact"><div class="k">Loại in</div><div class="v">1 tấm to (10×15) · 2 tấm nhỏ (5×15)</div></div>
+        <div class="fact"><div class="k">Máy in</div><div class="v">Đặt tại Gác</div></div>
+        <div class="fact"><div class="k">Nhận ảnh</div><div class="v">Tại nhân viên trực</div></div>
+      </div>
+    </div>
+    <div class="hero-art">
+      <div class="phone" data-parallax="0.045"><img src="assets/step-3-ghep-anh.jpg" alt="Ảnh đã ghép vào frame photobooth của Ban Công | Mộc" /></div>
+      <div class="qr-mini" data-parallax="-0.07">
+        <img src="assets/qr-mobile-photobooth.png" alt="Mã QR truy cập Mobile Photobooth" />
+        <span>Quét để truy cập</span>
+        <a href="https://selfbooth.mocphotobooth.com/" target="_blank" rel="noopener"><svg class="icon"><use href="#ic-external"/></svg> Mở trên trình duyệt</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 01 VÌ SAO ===================== -->
+<section id="why" class="sec why" data-od-id="why">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">01 – Tại sao lại làm</div>
+      <h2 class="sec-title">Rất nhiều khách chụp ảnh tại quán, nhưng chưa có <span class="hl">điểm chạm</span>.</h2>
+      <p class="sec-intro">Trong quá trình vận hành máy chụp, bọn em quan sát thấy lượng khách chụp ảnh bằng điện thoại và máy ảnh cá nhân rất đông tại vỉa hè và trong quán, nhưng chưa có sản phẩm nào kết nối với nhóm khách này.</p>
+    </div>
+
+    <div class="obs-grid stagger">
+      <div class="obs">
+        <div class="ico"><svg class="icon"><use href="#ic-camera"/></svg></div>
+        <div class="n">01</div>
+        <h3>Nhu cầu có sẵn</h3>
+        <p>Khách chụp ảnh bằng điện thoại và máy ảnh cá nhân rất nhiều tại vỉa hè và trong quán.</p>
+      </div>
+      <div class="obs">
+        <div class="ico"><svg class="icon"><use href="#ic-scan"/></svg></div>
+        <div class="n">02</div>
+        <h3>Thiếu <span class="hl">điểm chạm</span></h3>
+        <p>Chưa có <span class="hl">điểm chạm</span> nào với lượng khách này trong suốt trải nghiệm tại quán.</p>
+      </div>
+      <div class="obs">
+        <div class="ico"><svg class="icon"><use href="#ic-receipt"/></svg></div>
+        <div class="n">03</div>
+        <h3>Mục tiêu</h3>
+        <p>Cần tìm <span class="hl">điểm chạm</span> với đối tượng này để tăng doanh thu.</p>
+      </div>
+    </div>
+
+    <div class="solution reveal">
+      <div class="tag">Giải pháp</div>
+      <div class="big">Dùng <em>Mobile Photobooth</em>, sử dụng điện thoại để Chụp, Ghép frame và In ảnh.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 02 LUỒNG ===================== -->
+<section id="flow" class="sec" data-od-id="flow">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">02 – Luồng người dùng</div>
+      <h2 class="sec-title">Chín bước, trọn trong một lần ngồi.</h2>
+      <p class="sec-intro">Từ lúc khách bước vào quán đến khi cầm tấm ảnh trên tay, toàn bộ diễn ra trên điện thoại của khách, không cần cài đặt.</p>
+    </div>
+
+    <!-- Phase 1 -->
+    <div class="phase reveal">
+      <div class="phase-head">
+        <div class="pnum">01</div>
+        <div><div class="pt">Bắt đầu · chọn khung</div><div class="ps">Khách vào quán → thấy quảng cáo → quét QR mở trang chọn khung</div></div>
+      </div>
+      <div class="phase-body">
+        <ol class="steps stagger" style="list-style:none;margin:0">
+          <li class="step"><span class="idx">1</span><div><div class="st">Khách vào quán</div><div class="sd">Tại Ban Công hoặc Gác.</div></div></li>
+          <li class="step"><span class="idx">2</span><div><div class="st">Thấy thông tin quảng cáo</div><div class="sd">Nhận diện dịch vụ Mobile Photobooth ngay tại chỗ ngồi.</div></div></li>
+          <li class="step"><span class="idx">3</span><div><div class="st">Quét QR tại quầy hoặc trên bàn</div><div class="sd">Mở thẳng trang chọn khung của Mobile Photobooth.</div></div></li>
+        </ol>
+        <div class="screens stagger">
+          <div class="cell">
+            <div class="phone sm"><img src="assets/step-1-chon-khung.jpg" alt="Trang chọn khung ảnh sau khi quét QR" /></div>
+            <div class="phone-cap"><b>Bước 3</b> · Chọn khung ảnh</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 2 -->
+    <div class="phase reverse reveal">
+      <div class="phase-head">
+        <div class="pnum">02</div>
+        <div><div class="pt">Chụp &amp; ghép frame</div><div class="ps">Thêm ảnh vào frame → chỉnh sửa → gửi in</div></div>
+      </div>
+      <div class="phase-body">
+        <ol class="steps stagger" style="list-style:none;margin:0">
+          <li class="step"><span class="idx">4</span><div><div class="st">Thêm ảnh vào frame và chỉnh sửa</div><div class="sd">Tải ảnh lên hoặc Chụp ngay, rồi chỉnh trong frame đã chọn.</div></div></li>
+          <li class="step"><span class="idx">5</span><div><div class="st">Chỉnh sửa xong, chọn Gửi in</div><div class="sd">Gửi yêu cầu in từ màn hình chỉnh sửa.</div></div></li>
+        </ol>
+        <div class="screens stagger">
+          <div class="cell">
+            <div class="phone sm"><img src="assets/step-2-them-anh.jpg" alt="Thêm ảnh vào các ô của frame" /></div>
+            <div class="phone-cap"><b>Bước 4</b> · Thêm ảnh</div>
+          </div>
+          <div class="cell">
+            <div class="phone sm"><img src="assets/step-3-ghep-anh.jpg" alt="Ảnh đã ghép vào frame, sẵn sàng gửi in" /></div>
+            <div class="phone-cap"><b>Bước 5</b> · Ghép frame &amp; gửi in</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 3 -->
+    <div class="phase reveal">
+      <div class="phase-head">
+        <div class="pnum">03</div>
+        <div><div class="pt">Chọn loại in &amp; đặt in</div><div class="ps">Chọn loại in, số lượng → xem số tiền → nhấn đặt in</div></div>
+      </div>
+      <div class="phase-body">
+        <ol class="steps stagger" style="list-style:none;margin:0">
+          <li class="step"><span class="idx">6</span><div><div class="st">Chọn loại in và số lượng ảnh in</div><div class="sd">Chọn <span class="pill">10×15</span> để in <strong>1 tấm ảnh to</strong>, hoặc <span class="pill">5×15</span> để in <strong>2 tấm ảnh nhỏ</strong> giống nhau.</div></div></li>
+          <li class="step"><span class="idx">7</span><div><div class="st">Quan sát số tiền cần thanh toán và Nhấn đặt in</div><div class="sd">Số tiền hiển thị rõ trước khi xác nhận.</div></div></li>
+        </ol>
+        <div class="screens stagger">
+          <div class="cell">
+            <div class="phone sm"><img src="assets/step-4-chon-loai-in.jpg" alt="Bảng chọn loại in, số lượng và nút đặt in 80.000đ" /></div>
+            <div class="phone-cap"><b>Bước 6–7</b> · Chọn loại in &amp; đặt in</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 4 -->
+    <div class="phase reverse reveal">
+      <div class="phase-head">
+        <div class="pnum">04</div>
+        <div><div class="pt">Nhận ảnh</div><div class="ps">Gặp nhân viên thanh toán → nhận bản in → tải ảnh</div></div>
+      </div>
+      <div class="phase-body">
+        <ol class="steps stagger" style="list-style:none;margin:0">
+          <li class="step"><span class="idx">8</span><div><div class="st">Gặp nhân viên trực, mở đơn hàng và thanh toán</div><div class="sd">Khách ra gặp Nhân viên trực Photobooth để lấy bản in.</div></div></li>
+          <li class="step"><span class="idx">9</span><div><div class="st">Tải ảnh đã ghép vào frame</div><div class="sd">Khách có thể tải lại ảnh đã ghép khung bất cứ lúc nào trong mục đơn hàng.</div></div></li>
+        </ol>
+        <div class="screens stagger">
+          <div class="cell">
+            <div class="phone sm"><img src="assets/step-5-cho-duyet.jpg" alt="Trang chờ nhân viên duyệt đơn, giá 80.000đ" /></div>
+            <div class="phone-cap"><b>Bước 8</b> · Chờ nhân viên duyệt</div>
+          </div>
+          <div class="cell">
+            <div class="phone sm"><img src="assets/step-6-don-hang.jpg" alt="Danh sách đơn hàng và nút tải ảnh" /></div>
+            <div class="phone-cap"><b>Bước 9</b> · Đơn hàng &amp; tải ảnh</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 03 HỖ TRỢ ===================== -->
+<section id="support" class="sec" data-od-id="support">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">03 – Cần hỗ trợ</div>
+      <h2 class="sec-title">Bốn việc để khách nhìn thấy dịch vụ.</h2>
+      <p class="sec-intro">Dịch vụ chỉ hiệu quả khi khách biết đến nó. Cần hỗ trợ quảng bá tại điểm, phổ biến cho nhân viên và truyền thông.</p>
+    </div>
+
+    <div class="sup-grid stagger">
+      <div class="sup">
+        <div class="ico"><svg class="icon"><use href="#ic-scan"/></svg></div>
+        <div>
+          <h3>Poster + QR tại điểm</h3>
+          <p>Đặt poster giới thiệu kèm mã QR truy cập ngay tại những nơi khách dễ thấy.</p>
+          <div class="places"><span>Quầy order</span><span>Bàn uống nước</span><span>Bàn ăn bánh mỳ</span></div>
+        </div>
+      </div>
+      <div class="sup">
+        <div class="ico"><svg class="icon"><use href="#ic-store"/></svg></div>
+        <div>
+          <h3>Bảng giới thiệu ở vỉa hè</h3>
+          <p>Đặt bảng giới thiệu dịch vụ ở vỉa hè phía trước Ban Công cho đối tượng khách qua đường nhưng không vào quán.</p>
+        </div>
+      </div>
+      <div class="sup">
+        <div class="ico"><svg class="icon"><use href="#ic-team"/></svg></div>
+        <div>
+          <h3>Phổ biến luồng cho nhân viên</h3>
+          <p>Phổ biến luồng dịch vụ cho nhân viên để chủ động tư vấn khách.</p>
+        </div>
+      </div>
+      <div class="sup">
+        <div class="ico"><svg class="icon"><use href="#ic-megaphone"/></svg></div>
+        <div>
+          <h3>Hỗ trợ truyền thông</h3>
+          <p>Hỗ trợ truyền thông để dịch vụ tiếp cận đúng nhóm khách đã có sẵn nhu cầu chụp ảnh.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 04 SETUP ===================== -->
+<section id="setup" class="sec setup" data-od-id="setup">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">04 – Setup</div>
+      <h2 class="sec-title">Máy in đặt ở Gác.</h2>
+      <p class="sec-intro">Khách in sẽ ra gặp Nhân viên trực Photobooth để lấy ảnh.</p>
+    </div>
+
+    <div class="venue">
+      <div class="venue-card reveal" data-reveal="left">
+        <div class="vh"><svg class="icon"><use href="#ic-store"/></svg> Ban Công</div>
+        <p>Nơi khách ngồi, thấy poster và quét QR để chụp, ghép frame. Mọi thao tác diễn ra trên điện thoại của khách.</p>
+      </div>
+      <div class="venue-link reveal" data-reveal="soft" aria-hidden="true"><span>Đơn in</span><span class="line"></span><svg class="icon" style="font-size:20px;color:var(--accent)"><use href="#ic-print"/></svg></div>
+      <div class="venue-card is-printer reveal" data-reveal="right">
+        <div class="vh"><svg class="icon"><use href="#ic-print"/></svg> Gác</div>
+        <p>Máy in được đặt tại Gác cùng Nhân viên trực Photobooth, nơi khách quay lại để mở đơn hàng, thanh toán và nhận bản in.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 05 DOANH THU ===================== -->
+<section id="revenue" class="sec" data-od-id="revenue">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-num">05 – Tỉ lệ doanh thu</div>
+      <h2 class="sec-title">80.000đ mỗi ảnh in, chia lại cho Ban Công.</h2>
+    </div>
+
+    <div class="rev-grid">
+      <div>
+        <div class="big-price reveal" data-reveal="scale"><span data-count="80">0</span>k<sup>/ ảnh</sup></div>
+        <div class="big-price-label reveal" data-reveal="soft">Giá in mỗi tấm ảnh</div>
+      </div>
+      <div class="split reveal" data-reveal="soft">
+        <div class="split-head"><span>Phân bổ trên mỗi ảnh in</span><span class="mono" style="font-family:var(--font-mono)">10×15</span></div>
+        <div class="split-bar" role="img" aria-label="Biểu đồ: 30.000đ trên 80.000đ gửi lại Ban Công">
+          <div class="seg to-bc"><span data-count="30000">0</span>đ</div>
+          <div class="seg rest"><span data-count="50000">0</span>đ</div>
+        </div>
+        <div class="split-legend">
+          <div class="li"><span class="dot a"></span> Gửi lại Ban Công – 30.000đ / 1 ảnh 10×15</div>
+          <div class="li"><span class="dot b"></span> Phần còn lại</div>
+        </div>
+        <div class="split-note">Mỗi ảnh in giá 80.000đ: gửi lại Ban Công 30.000đ cho 1 ảnh 10×15.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== QR CTA ===================== -->
+<section id="qr" class="qr-cta" data-od-id="qr">
+  <div class="wrap stagger">
+    <div>
+      <h2>Chụp, ghép frame<br>và in lấy ngay.</h2>
+      <p>Đưa khách đến thẳng trang chỉnh sửa. Quét mã QR tại quầy hoặc trên bàn để bắt đầu.</p>
+      <div class="logos">
+        <span class="lchip bc"><img src="assets/bancong-logo.png" alt="Ban Công café &amp; restaurant" /></span>
+        <span class="lx" aria-hidden="true">×</span>
+        <span class="lchip moc"><img src="assets/moc-logo.png" alt="Mộc" /></span>
+      </div>
+    </div>
+    <div class="qr-card">
+      <img src="assets/qr-mobile-photobooth.png" alt="Mã QR truy cập Mobile Photobooth" />
+      <div class="ql">Mobile Photobooth</div>
+      <div class="qs">Quét để truy cập</div>
+      <a class="qb" href="https://selfbooth.mocphotobooth.com/" target="_blank" rel="noopener"><svg class="icon"><use href="#ic-external"/></svg> Mở trên trình duyệt</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span class="flogos">
+      <img class="fbc" src="assets/bancong-logo.png" alt="Ban Công café &amp; restaurant" />
+      <span class="fx" aria-hidden="true">×</span>
+      <img class="fmoc" src="assets/moc-logo.png" alt="Mộc" />
+    </span>
+    <span class="mono">In ảnh lấy ngay · 80.000đ / ảnh</span>
+  </div>
+</footer>
+
+<script>
+/* Scroll animation — reveal, stagger, count-up, parallax, progress, scroll-spy.
+   Tất cả tôn trọng prefers-reduced-motion. */
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var hasIO = 'IntersectionObserver' in window;
+
+  /* ---- 1. Reveal + staggered cascades ---- */
+  var revealEls = [].slice.call(document.querySelectorAll('.reveal, .stagger'));
+  if (reduce || !hasIO) {
+    revealEls.forEach(function (el) { el.classList.add('in'); });
+  } else {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    revealEls.forEach(function (el) { io.observe(el); });
+  }
+
+  /* ---- 2. Animated count-ups ---- */
+  function fmt(n) { return Math.round(n).toLocaleString('vi-VN'); }
+  function countUp(el) {
+    var end = parseFloat(el.getAttribute('data-count')) || 0;
+    if (reduce) { el.textContent = fmt(end); return; }
+    var start = null, dur = 1150;
+    function step(t) {
+      if (start === null) start = t;
+      var k = Math.min(1, (t - start) / dur);
+      var eased = 1 - Math.pow(1 - k, 3);
+      el.textContent = fmt(end * eased);
+      if (k < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  var counters = [].slice.call(document.querySelectorAll('[data-count]'));
+  if (hasIO && !reduce) {
+    var io2 = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { countUp(e.target); io2.unobserve(e.target); }
+      });
+    }, { threshold: 0.65 });
+    counters.forEach(function (el) { io2.observe(el); });
+  } else {
+    counters.forEach(function (el) { el.textContent = fmt(parseFloat(el.getAttribute('data-count')) || 0); });
+  }
+
+  /* ---- 3. Scroll progress + parallax ---- */
+  var progress = document.getElementById('scroll-progress');
+  var parallaxEls = [].slice.call(document.querySelectorAll('[data-parallax]'));
+  var heroArt = document.querySelector('.hero-art');
+  var ticking = false;
+  function draw() {
+    var doc = document.documentElement;
+    var top = window.pageYOffset || doc.scrollTop;
+    var max = doc.scrollHeight - doc.clientHeight;
+    if (progress) progress.style.width = (max > 0 ? (top / max) * 100 : 0).toFixed(2) + '%';
+    if (!reduce) {
+      var vh = window.innerHeight;
+      parallaxEls.forEach(function (el) {
+        var sp = parseFloat(el.getAttribute('data-parallax')) || 0;
+        var r = el.getBoundingClientRect();
+        var offset = (r.top + r.height / 2 - vh / 2) * sp;
+        el.style.transform = 'translate3d(0,' + offset.toFixed(1) + 'px,0)';
+      });
+      if (heroArt) heroArt.style.setProperty('--py', (top * 0.12).toFixed(1) + 'px');
+    }
+    ticking = false;
+  }
+  function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(draw); } }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  draw();
+
+  /* ---- 4. Nav scroll-spy ---- */
+  var links = [].slice.call(document.querySelectorAll('.nav-links a[href^="#"]'));
+  var map = {};
+  links.forEach(function (a) { map[a.getAttribute('href').slice(1)] = a; });
+  var sections = [].slice.call(document.querySelectorAll('main section[id]'));
+  if (hasIO && sections.length) {
+    var spy = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          links.forEach(function (a) { a.classList.remove('active'); });
+          if (map[e.target.id]) map[e.target.id].classList.add('active');
+        }
+      });
+    }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+    sections.forEach(function (s) { spy.observe(s); });
+  }
+})();
+</script>
+</body>
+</html>
